@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tooliq</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <img src="icons/icon48.png" alt="Logo" class="logo">
+    <h1>Tooliq</h1>
+  </div>
+  
+  <div id="login-container" class="login-container">
+    <h2>Sign in to continue</h2>
+    <p>Please sign in with your Google account to use Tooliq.</p>
+    <button id="google-login-btn" class="primary-btn">Sign in with Google</button>
+  </div>
+  
+  <div id="main-container" class="main-container" style="display: none;">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="extract">Extract</button>
+      <button class="tab-btn" data-tab="components">Components</button>
+      <button class="tab-btn" data-tab="assets">Assets</button>
+      <button class="tab-btn" data-tab="responsive">Responsive</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+      <button class="tab-btn" data-tab="customize">Customize</button>
+      <button class="tab-btn" data-tab="plans">Plans</button>
+    </div>
+    
+    <div class="tab-content active" id="extract-tab">
+      <div class="option-group">
+        <h2>Export Options</h2>
+        <div class="checkbox-group">
+          <input type="checkbox" id="figma-export" checked>
+          <label for="figma-export">Figma Design</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="nextjs-export" checked>
+          <label for="nextjs-export">Next.js Code</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="component-library-export" checked>
+          <label for="component-library-export">Component Library</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="asset-export" checked>
+          <label for="asset-export">Optimized Assets</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="responsive-export" checked>
+          <label for="responsive-export">Responsive Design</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Extraction Scope</h2>
+        <div class="radio-group">
+          <input type="radio" id="full-page" name="scope" checked>
+          <label for="full-page">Full Page</label>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="selected-element" name="scope">
+          <label for="selected-element">Selected Element</label>
+          <button id="select-element-btn" class="small-btn">Select</button>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Component Detection</h2>
+        <div class="slider-group">
+          <label for="detection-level">Detection Sensitivity</label>
+          <input type="range" id="detection-level" min="1" max="10" value="7">
+          <div class="slider-labels">
+            <span>Basic</span>
+            <span>Advanced</span>
+          </div>
+        </div>
+      </div>
+      
+      <button id="extract-btn" class="primary-btn">Extract Design & Code</button>
+
+      <div class="export-options">
+        <h2>Export Options</h2>
+        <div class="radio-group">
+          <input type="radio" id="export-zip" name="export-type" checked>
+          <label for="export-zip">Zip File (All Assets)</label>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="export-fig" name="export-type">
+          <label for="export-fig">Figma .fig File</label>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="export-nextjs" name="export-type">
+          <label for="export-nextjs">Next.js Project Only</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tab-content" id="components-tab">
+      <div class="option-group">
+        <h2>Component Library Extraction</h2>
+        <p class="help-text">Extract reusable UI components from the current website and export them as a component library.</p>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="component-figma-export" checked>
+          <label for="component-figma-export">Figma Components</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="component-react-export" checked>
+          <label for="component-react-export">React Components</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Component Types</h2>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-buttons" checked>
+          <label for="detect-buttons">Buttons</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-cards" checked>
+          <label for="detect-cards">Cards</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-forms" checked>
+          <label for="detect-forms">Forms</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-modals" checked>
+          <label for="detect-modals">Modals</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-alerts" checked>
+          <label for="detect-alerts">Alerts</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-badges" checked>
+          <label for="detect-badges">Badges</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-avatars" checked>
+          <label for="detect-avatars">Avatars</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Detection Sensitivity</h2>
+        <div class="slider-group">
+          <label for="component-detection-level">Detection Sensitivity</label>
+          <input type="range" id="component-detection-level" min="1" max="10" value="8">
+          <div class="slider-labels">
+            <span>Basic</span>
+            <span>Advanced</span>
+          </div>
+        </div>
+        <p class="help-text">Higher sensitivity detects more components but may include false positives.</p>
+      </div>
+      
+      <button id="extract-components-btn" class="primary-btn">Extract Component Library</button>
+    </div>
+    
+    <div class="tab-content" id="assets-tab">
+      <div class="option-group">
+        <h2>Asset Optimization</h2>
+        <p class="help-text">Extract and optimize images, icons, and SVGs from the current website.</p>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="extract-images" checked>
+          <label for="extract-images">Extract Images</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="extract-svgs" checked>
+          <label for="extract-svgs">Extract SVGs</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="optimize-images" checked>
+          <label for="optimize-images">Optimize Images</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="convert-svg-to-png">
+          <label for="convert-svg-to-png">Convert SVGs to PNG</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Image Optimization</h2>
+        <div class="slider-group">
+          <label for="image-quality">Image Quality</label>
+          <input type="range" id="image-quality" min="50" max="100" value="80">
+          <div class="slider-labels">
+            <span>Smaller Size</span>
+            <span>Higher Quality</span>
+          </div>
+        </div>
+        <p class="help-text">Lower quality results in smaller file sizes but may reduce image quality.</p>
+        
+        <div class="input-group">
+          <label for="max-image-width">Max Image Width (px)</label>
+          <input type="number" id="max-image-width" value="1920" min="100" max="5000">
+        </div>
+        <div class="input-group">
+          <label for="max-image-height">Max Image Height (px)</label>
+          <input type="number" id="max-image-height" value="1080" min="100" max="5000">
+        </div>
+      </div>
+      
+      <button id="extract-assets-btn" class="primary-btn">Extract & Optimize Assets</button>
+    </div>
+    
+    <div class="tab-content" id="responsive-tab">
+      <div class="option-group">
+        <h2>Responsive Design Analysis</h2>
+        <p class="help-text">Analyze the responsive design of the current website and export optimized code and designs for different screen sizes.</p>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="detect-breakpoints" checked>
+          <label for="detect-breakpoints">Detect Breakpoints</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="generate-responsive-figma" checked>
+          <label for="generate-responsive-figma">Generate Responsive Figma Frames</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="generate-responsive-code" checked>
+          <label for="generate-responsive-code">Generate Responsive CSS</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Breakpoints</h2>
+        <p class="help-text">The extension will detect breakpoints automatically, or you can specify custom breakpoints below.</p>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="use-custom-breakpoints">
+          <label for="use-custom-breakpoints">Use Custom Breakpoints</label>
+        </div>
+        
+        <div id="custom-breakpoints" style="display: none;">
+          <div class="input-group">
+            <label for="mobile-breakpoint">Mobile (px)</label>
+            <input type="number" id="mobile-breakpoint" value="320" min="100" max="5000">
+          </div>
+          <div class="input-group">
+            <label for="tablet-breakpoint">Tablet (px)</label>
+            <input type="number" id="tablet-breakpoint" value="768" min="100" max="5000">
+          </div>
+          <div class="input-group">
+            <label for="desktop-breakpoint">Desktop (px)</label>
+            <input type="number" id="desktop-breakpoint" value="1280" min="100" max="5000">
+          </div>
+        </div>
+      </div>
+      
+      <button id="analyze-responsive-btn" class="primary-btn">Analyze Responsive Design</button>
+    </div>
+    
+    <div class="tab-content" id="settings-tab">
+      <div class="option-group">
+        <h2>Next.js Options</h2>
+        <div class="checkbox-group">
+          <input type="checkbox" id="use-typescript" checked>
+          <label for="use-typescript">Use TypeScript</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="use-tailwind" checked>
+          <label for="use-tailwind">Use Tailwind CSS</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="app-router" checked>
+          <label for="app-router">App Router (Next.js 13+)</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Figma Options</h2>
+        <div class="checkbox-group">
+          <input type="checkbox" id="auto-layout" checked>
+          <label for="auto-layout">Use Auto Layout</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="component-variants">
+          <label for="component-variants">Create Component Variants</label>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Figma Integration</h2>
+        <div id="figma-auth-status">Not connected to Figma</div>
+        <button id="figma-auth-btn" class="secondary-btn">Connect to Figma</button>
+        <p class="help-text">Connect to Figma to export designs directly to your Figma account.</p>
+      </div>
+      
+      <div class="option-group">
+        <h2>Google Account</h2>
+        <div id="google-auth-status">Signed in</div>
+        <button id="google-auth-btn" class="secondary-btn">Sign Out</button>
+        <p class="help-text">Your Google account is used to save your settings and track usage.</p>
+      </div>
+      
+      <button id="save-settings-btn" class="primary-btn">Save Settings</button>
+    </div>
+    
+    <div class="tab-content" id="customize-tab">
+      <div class="option-group">
+        <h2>Color Scheme</h2>
+        <div class="color-pickers">
+          <div class="color-picker-group">
+            <label for="primary-color">Primary Color</label>
+            <input type="color" id="primary-color" value="#0070f3">
+          </div>
+          <div class="color-picker-group">
+            <label for="secondary-color">Secondary Color</label>
+            <input type="color" id="secondary-color" value="#7928ca">
+          </div>
+          <div class="color-picker-group">
+            <label for="text-color">Text Color</label>
+            <input type="color" id="text-color" value="#333333">
+          </div>
+          <div class="color-picker-group">
+            <label for="background-color">Background Color</label>
+            <input type="color" id="background-color" value="#ffffff">
+          </div>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Typography</h2>
+        <div class="select-group">
+          <label for="heading-font">Heading Font</label>
+          <select id="heading-font">
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+          </select>
+        </div>
+        <div class="select-group">
+          <label for="body-font">Body Font</label>
+          <select id="body-font">
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="option-group">
+        <h2>Layout Options</h2>
+        <div class="checkbox-group">
+          <input type="checkbox" id="responsive-layout" checked>
+          <label for="responsive-layout">Generate Responsive Layout</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="optimize-spacing" checked>
+          <label for="optimize-spacing">Optimize Spacing</label>
+        </div>
+        <div class="select-group">
+          <label for="container-width">Container Width</label>
+          <select id="container-width">
+            <option value="full">Full Width</option>
+            <option value="1280" selected>1280px</option>
+            <option value="1024">1024px</option>
+            <option value="768">768px</option>
+          </select>
+        </div>
+      </div>
+      
+      <button id="save-customize-btn" class="primary-btn">Save Customizations</button>
+    </div>
+    
+    <div class="tab-content" id="plans-tab">
+      <div class="plans-container">
+        <h2>Choose Your Plan</h2>
+        
+        <div class="plan-cards">
+          <div class="plan-card" id="free-plan">
+            <div class="plan-header">
+              <h3>Free</h3>
+              <p class="plan-price">$0</p>
+            </div>
+            <div class="plan-features">
+              <ul>
+                <li>5 extractions per month</li>
+                <li>Basic customization</li>
+                <li>Export to Next.js</li>
+                <li>Export to Figma</li>
+              </ul>
+            </div>
+            <div class="plan-footer">
+              <p id="free-plan-status">Current Plan</p>
+              <p id="extractions-left">5 extractions left</p>
+            </div>
+          </div>
+          
+          <div class="plan-card" id="premium-plan">
+            <div class="plan-header">
+              <h3>Premium</h3>
+              <p class="plan-price">$15<span>/month</span></p>
+            </div>
+            <div class="plan-features">
+              <ul>
+                <li>Unlimited extractions</li>
+                <li>Advanced customization</li>
+                <li>Component library extraction</li>
+                <li>Asset optimization</li>
+                <li>Responsive design analysis</li>
+                <li>Priority support</li>
+                <li>Export to multiple formats</li>
+                <li>Team sharing</li>
+              </ul>
+            </div>
+            <div class="plan-footer">
+              <button id="upgrade-btn" class="primary-btn">Upgrade Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>Made by Tooliq</p>
+  </div>
+</div>
+<script type="module" src="popup.js"></script>
+</body>
+</html>
+
