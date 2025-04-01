@@ -1,56 +1,65 @@
 {
-    "manifest_version": 3,
-    "name": "Tooliq",
-    "version": "1.0.0",
-    "description": "Convert any website into Figma designs and Next.js code with Slane",
-    "permissions": ["activeTab", "scripting", "storage", "downloads", "notifications", "webNavigation", "identity"],
-    "host_permissions": [
-      "https://api.figma.com/*",
-      "https://www.figma.com/*",
-      "https://openbase.studio/*",
-      "https://accounts.google.com/*",
-      "https://www.googleapis.com/*",
-      "<all_urls>"
-    ],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
-      }
-    },
-    "icons": {
+  "manifest_version": 3,
+  "name": "Tooliq",
+  "version": "1.0.0",
+  "description": "Convert any website into Figma designs and Next.js code with Slane",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "downloads",
+    "notifications",
+    "webNavigation",
+    "identity",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://api.figma.com/*",
+    "https://www.figma.com/*",
+    "https://openbase.studio/*",
+    "https://accounts.google.com/*",
+    "https://www.googleapis.com/*",
+    "https://api.sendpe.in/*",
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
-    },
-    "background": {
-      "service_worker": "background.js",
-      "type": "module"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"],
-        "run_at": "document_idle"
-      },
-      {
-        "matches": ["https://openbase.studio/*"],
-        "js": ["redirect-handler.js"],
-        "run_at": "document_end"
-      }
-    ],
-    "web_accessible_resources": [
-      {
-        "resources": ["icons/*"],
-        "matches": ["<all_urls>"]
-      }
-    ],
-    "oauth2": {
-      "client_id": "YOUR_GOOGLE_CLIENT_ID",
-      "scopes": ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
     }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://openbase.studio/*"],
+      "js": ["redirect-handler.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "oauth2": {
+    "client_id": "YOUR_GOOGLE_CLIENT_ID",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
   }
-  
-  
+}
+

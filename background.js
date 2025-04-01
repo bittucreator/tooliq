@@ -6,6 +6,20 @@ import { initGoogleAuth, getGoogleToken, verifyGoogleToken } from "./lib/google-
 // Import debug utilities at the top of the file
 import { debugLog, debugError } from "./debug.js"
 
+// After the existing imports, add these new imports:
+import authService, { AUTH_EVENTS } from "./lib/auth-service.js"
+import realTimeService from "./lib/real-time-service.js"
+// After the existing imports, add this import:
+import stripeWebhookHandler from "./lib/stripe-webhook-handler.js"
+// After the existing imports, add these new imports:
+import { initSupabase } from "./lib/supabase-client.js"
+
+// Add this code near the top of the file, after the debug imports
+// Initialize Supabase
+initSupabase().catch((error) => {
+  debugError("Error initializing Supabase:", error)
+})
+
 // Add this code near the top of the file, after the debug imports
 
 // Listen for extension installation
@@ -26,6 +40,63 @@ chrome.runtime.onInstalled.addListener((details) => {
     initGoogleAuth().catch((error) => {
       debugError("Error during initial Google auth:", error)
     })
+  }
+})
+
+// Add this code after the existing chrome.runtime.onInstalled.addListener function:
+
+// Set up auth event listeners
+authService.addEventListener(AUTH_EVENTS.SIGNED_IN, ({ user }) => {
+  debugLog("User signed in:", user.email)
+
+  // Connect to real-time service
+  realTimeService
+    .connect(authService.authToken)
+    .then(() => {
+      debugLog("Connected to real-time service")
+    })
+    .catch((error) => {
+      debugError("Failed to connect to real-time service:", error)
+    })
+
+  // Show welcome notification
+  showNotification("Welcome back!", `You are now signed in as ${user.email}`)
+})
+
+authService.addEventListener(AUTH_EVENTS.SIGNED_OUT, () => {
+  debugLog("User signed out")
+
+  // Disconnect from real-time service
+  realTimeService.disconnect()
+
+  // Show notification
+  showNotification("Signed out", "You have been signed out successfully")
+})
+
+// Set up real-time message handlers
+realTimeService.on("notification", (data) => {
+  debugLog("Received notification:", data)
+
+  // Show notification to user
+  showNotification(data.title, data.message, data.url)
+})
+
+realTimeService.on("extraction_complete", (data) => {
+  debugLog("Extraction complete:", data)
+
+  // Show notification
+  showNotification("Extraction Complete", `Your extraction of ${data.url} is complete!`, data.resultUrl)
+})
+
+realTimeService.on("connection", (data) => {
+  if (data.status === "connected") {
+    debugLog("Real-time connection established")
+  } else if (data.status === "disconnected") {
+    debugLog("Real-time connection closed")
+
+    if (data.permanent) {
+      debugLog("Permanent disconnection:", data.reason)
+    }
   }
 })
 
@@ -190,6 +261,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.action === "checkFigmaAuth") {
     // Check if the Figma token is valid
     checkFigmaAuth(sendResponse)
+    return true // Required for async sendResponse
+  }
+  // Add this to the chrome.runtime.onMessage.addListener function:
+  else if (request.action === "stripeWebhook") {
+    debugLog("Received Stripe webhook event:", request.event.type)
+
+    stripeWebhookHandler
+      .handleEvent(request.event)
+      .then(() => {
+        sendResponse({ success: true })
+      })
+      .catch((error) => {
+        debugError("Error handling Stripe webhook:", error)
+        sendResponse({ success: false, error: error.message })
+      })
+
     return true // Required for async sendResponse
   }
 })
