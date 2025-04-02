@@ -1,10 +1,6 @@
 # Tooliq - Website to Figma & Next.js Converter
 
 <p align="center">
-  <img src="docs/images/tooliq-logo.png" alt="Tooliq Logo" width="200"/>
-</p>
-
-<p align="center">
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
